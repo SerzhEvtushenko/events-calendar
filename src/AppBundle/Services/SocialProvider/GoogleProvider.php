@@ -122,7 +122,7 @@ class GoogleProvider extends AbstractSocialProvider implements CalendarInterface
         try {
             $result = $service->events->listEvents($calendarId, $optParams);
             while (true) {
-                $events = array_merge($events, $result->getItems());
+                $events = array_merge_recursive($events, $result->getItems());
 
                 if (count($events) >= 500) {
                     break;

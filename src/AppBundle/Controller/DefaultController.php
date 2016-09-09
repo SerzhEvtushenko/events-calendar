@@ -45,6 +45,7 @@ class DefaultController extends Controller
                                    ->findOneBy(['id' => $accountId, 'user' => $user]);
 
         if ($account) {
+            //todo process result on view (i.e. errors)
             $this->container->get('app.helper.calendar')->addNewEvents($account, $message);
         }
 

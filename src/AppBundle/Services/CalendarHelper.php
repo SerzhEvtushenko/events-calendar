@@ -80,17 +80,16 @@ class CalendarHelper
         $provider = $this->providerFactory->getProvider($socialAccount->getProviderType());
         $event    = $provider->addCalendarEvent($socialAccount, $eventText);
 
-        if ($event instanceof \Exception) {
-            return [
-                'status'       => false,
-                'errorMessage' => $event->getMessage()
-            ];
+        if ($event instanceof \Google_Service_Calendar_Event) {
+            $this->addEvent($socialAccount, $event);
+            $this->em->flush();
+
+            return ['status' => true];
         }
 
-        $this->addEvent($socialAccount, $event);
-        $this->em->flush();
-
-        return ['status' => true];
+        return [
+            'status' => false
+        ];
     }
 
     /**
