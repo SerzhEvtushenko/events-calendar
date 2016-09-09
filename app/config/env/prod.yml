@@ -1,0 +1,8 @@
+parameters:
+
+  web_host: ""
+
+  google.client_id:
+  google.client_secret:
+  google.available:
+  google.app_name:

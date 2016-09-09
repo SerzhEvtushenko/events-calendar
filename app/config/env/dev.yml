@@ -1,0 +1,7 @@
+parameters:
+
+  web_host: "events-calendar.dev"
+
+  google.client_id: 737395822202-ftgd04dpg09p0624m7nvqdqs73r28l98.apps.googleusercontent.com
+  google.client_secret: ekLz_J37OrTNgnPqCwXhO2Lg
+  google.app_name: 'Event calendar'

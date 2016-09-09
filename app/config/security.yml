@@ -1,0 +1,33 @@
+security:
+  providers:
+      yuser_provider:
+          entity:
+              class: AppBundle\Entity\User
+              property: email
+
+  encoders:
+      AppBundle\Entity\User: md5
+
+  firewalls:
+      dev:
+          pattern: ^/(_(profiler|wdt|error)|css|images|js)/
+          security: false
+
+      partner_free:
+          pattern: ^/(login$|register|recovery|resend$)
+          context: partner
+          anonymous: ~
+
+      default:
+          pattern: ^/
+          provider: yuser_provider
+
+          form_login:
+              login_path: security.login
+              check_path:  security.login_check
+              success_handler: security.authentication_handler
+              failure_handler: security.authentication_handler
+          logout:
+              path:   security.logout
+              target: /
+

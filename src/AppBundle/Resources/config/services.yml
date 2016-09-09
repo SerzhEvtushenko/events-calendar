@@ -1,0 +1,34 @@
+services:
+
+    app.helper.user:
+        class: AppBundle\Services\UserHelper
+        arguments:
+          - "@social.provider.factory"
+          - "@=service('doctrine').getManager()"
+          - "@security.token_storage"
+
+    app.helper.calendar:
+        class: AppBundle\Services\CalendarHelper
+        arguments:
+          - "@social.provider.factory"
+          - "@=service('doctrine').getManager()"
+
+    social.provider.parent:
+        class: AppBundle\Services\SocialProvider\AbstractSocialProvider
+        abstract: true
+        calls:
+            - [ setContainer,  ["@service_container"]]
+
+    social.provider.google:
+        class: AppBundle\Services\SocialProvider\GoogleProvider
+        parent: social.provider.parent
+        arguments: ["%google.client_id%", "%google.client_secret%", "%google.app_name%"]
+
+    social.provider.factory:
+        class: AppBundle\Services\SocialProvider\SocialProviderFactory
+        arguments:
+          - "@social.provider.google"
+
+
+
+
