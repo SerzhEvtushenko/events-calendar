@@ -19,6 +19,7 @@ class EventRepository extends EntityRepository
              ->delete()
              ->where('e.account = :account')
              ->setParameter('account', $socialAccount)
-             ->getQuery()->execute();
+             ->getQuery()
+             ->execute();
     }
 }
