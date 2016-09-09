@@ -56,11 +56,10 @@ class CalendarHelper
                 if ($counter >= self::EVENT_COUNTER) {
                     try {
                         $this->em->flush();
+                        $this->em->clear();
                     } catch (\Exception $e) {
                         //todo Log exception
                     }
-
-                    $this->em->clear();
                 }
             }
         }
@@ -75,7 +74,7 @@ class CalendarHelper
      * @return array
      * @throws \Exception
      */
-    public function addNewEvents(SocialAccount $socialAccount, $eventText)
+    public function addNewEvent(SocialAccount $socialAccount, $eventText)
     {
         $provider = $this->providerFactory->getProvider($socialAccount->getProviderType());
         $event    = $provider->addCalendarEvent($socialAccount, $eventText);
@@ -84,12 +83,10 @@ class CalendarHelper
             $this->addEvent($socialAccount, $event);
             $this->em->flush();
 
-            return ['status' => true];
+            return true;
         }
 
-        return [
-            'status' => false
-        ];
+        return false;
     }
 
     /**

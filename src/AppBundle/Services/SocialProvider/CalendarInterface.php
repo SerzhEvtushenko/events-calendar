@@ -12,6 +12,8 @@ use AppBundle\Entity\SocialAccount;
 interface CalendarInterface
 {
 
+    const CHUNK_LENGTH = 100;
+    
     public function getCalendarEvents(SocialAccount $account);
 
     public function addCalendarEvent(SocialAccount $account, $eventText);

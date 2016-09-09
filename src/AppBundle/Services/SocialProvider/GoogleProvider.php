@@ -107,17 +107,16 @@ class GoogleProvider extends AbstractSocialProvider implements CalendarInterface
         $client      = $this->createClientInstance();
         $client->setAccessToken($accessToken);
 
+        $events  = [];
         $service = new \Google_Service_Calendar($client);
 
         $calendarId = 'primary';
         $optParams  = [
-            'maxResults'   => 100,
+            'maxResults'   => self::CHUNK_LENGTH,
             'orderBy'      => 'startTime',
             'singleEvents' => true,
             'timeMin'      => date('c'),
         ];
-
-        $events = [];
 
         try {
             $result = $service->events->listEvents($calendarId, $optParams);
@@ -139,7 +138,6 @@ class GoogleProvider extends AbstractSocialProvider implements CalendarInterface
         } catch (\Exception $e) {
             //todo Log exception
         }
-
 
         return $events;
     }

@@ -46,7 +46,7 @@ class DefaultController extends Controller
 
         if ($account) {
             //todo process result on view (i.e. errors)
-            $this->container->get('app.helper.calendar')->addNewEvents($account, $message);
+            $this->container->get('app.helper.calendar')->addNewEvent($account, $message);
         }
 
         return $this->redirectToRoute('homepage');
