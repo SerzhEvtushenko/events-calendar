@@ -1,60 +1,79 @@
 {% extends '@App/base.html.twig' %}
 
 {% block body %}
-    <div id="wrapper">
-        <div id="container">
-            <div id="welcome">
-                <h1>User calendars</h1>
-            </div>
+    <div class="container bs-docs-container" >
+        <div class="row">
+            <div class="col-md-12">
+                <div >
+                    <h1>User calendars</h1>
+                </div>
 
-            <a href="{{ googleProviderUrl }}" >Add new google account</a>
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <a class="btn btn-primary" href="{{ googleProviderUrl }}" >Add new google account</a>
+                        {#<a class="btn btn-primary" href="{{ path('add_event')}}" >Add new event</a>#}
+                    </div>
+                    <div class="pull-right">
+                        <a class="btn btn-warning" href="{{ path('security.logout')}}" >Logout</a>
+                    </div>
+                </div>
 
-            <hr/>
-            <div id="status">
-                <h2>Account List</h2>
-                <ul>
-                    {% for account in accounts %}
-                        <li>
-                            <label>{{ account.name }}</label>
-                            <ul>
-                            {% for event in account.events %}
-                                <li>{{ event.summary }}:{{ event.summary }}</li>
+                <hr/>
+                {% if accounts|length > 0 %}
+                    <div class="col-md-5">
+                        <form action="{{ path('add_event') }}" method="post">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Account</label>
+                                <select class="form-control" name="accountId">
+                                    {% for account in accounts %}
+                                        <option value="{{ account.id }}">{{ account.name }}</option>
+                                    {% endfor  %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Message</label>
+                                <textarea placeholder="Appointment at Somewhere on June 3rd 10am-10:25am" class="form-control" name="message" rows="3"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </form>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h2>Account List</h2>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Events</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for account in accounts %}
+                                <tr>
+                                    <th>{{ account.id }}</th>
+                                    <th>{{ account.name }}</th>
+                                    <th>
+                                        <ul>
+                                            {% for event in account.events %}
+                                                <li>{{ event.summary }}:{{ event.summary }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </th>
+                                </tr>
                             {% endfor %}
-                            </ul>
-                        </li>
-                    {% endfor %}
-                </ul>
-
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="col-md-9">
+                        <div class="bs-example bs-example-bg-classes">
+                            <p class="bg-warning" style="padding: 15px;">You do not have accounts eat</p>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
-
         </div>
     </div>
-{% endblock %}
-{% block stylesheets %}
-<style>
-    body { background: #F5F5F5; font: 18px/1.5 sans-serif; }
-    h1, h2 { line-height: 1.2; margin: 0 0 .5em; }
-    h1 { font-size: 36px; }
-    h2 { font-size: 21px; margin-bottom: 1em; }
-    p { margin: 0 0 1em 0; }
-    a { color: #0000F0; }
-    a:hover { text-decoration: none; }
-    code { background: #F5F5F5; max-width: 100px; padding: 2px 6px; word-wrap: break-word; }
-    #wrapper { background: #FFF; margin: 1em auto; max-width: 800px; width: 95%; }
-    #container { padding: 2em; }
-    #welcome, #status { margin-bottom: 2em; }
-    #welcome h1 span { display: block; font-size: 75%; }
-    #icon-status, #icon-book { float: left; height: 64px; margin-right: 1em; margin-top: -4px; width: 64px; }
-    #icon-book { display: none; }
-
-    @media (min-width: 768px) {
-        #wrapper { width: 80%; margin: 2em auto; }
-        #icon-book { display: inline-block; }
-        #status a, #next a { display: block; }
-
-        @-webkit-keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
-        @keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
-        .sf-toolbar { opacity: 0; -webkit-animation: fade-in 1s .2s forwards; animation: fade-in 1s .2s forwards;}
-    }
-</style>
 {% endblock %}

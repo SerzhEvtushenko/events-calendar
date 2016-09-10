@@ -35,10 +35,11 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("add-event/{accountId}/", name="add_event")
+     * @Route("add-event/", name="add_event")
      */
-    public function addEventAction(Request $request, $accountId)
+    public function addEventAction(Request $request)
     {
+        $accountId = $request->request->get('accountId');
         $message = $request->request->get('message');
         $user    = $this->container->get('app.helper.user')->getCurrentUser();
         $account = $this->container->get('doctrine')->getRepository('AppBundle:SocialAccount')
